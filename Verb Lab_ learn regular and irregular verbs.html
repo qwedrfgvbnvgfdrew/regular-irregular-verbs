@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Verb Lab: learn regular and irregular verbs</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap">
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#14213d;--mute:#5b6784;--line:#d9e0ee;--acc:#2f5bea;--acc-ink:#fff;--reg:#0b8a78;--regbg:#dff5f0;--irr:#c2255c;--irrbg:#fde3ec;--ok:#0b8a78;--bad:#c2255c;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1526;--card:#18203a;--ink:#e8ecf8;--mute:#9aa6c7;--line:#2c3760;--acc:#7c9cff;--acc-ink:#0f1526;--reg:#4fd1bb;--regbg:#12332f;--irr:#ff7aa5;--irrbg:#3a1827;--ok:#4fd1bb;--bad:#ff7aa5;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1526;--card:#18203a;--ink:#e8ecf8;--mute:#9aa6c7;--line:#2c3760;--acc:#7c9cff;--acc-ink:#0f1526;--reg:#4fd1bb;--regbg:#12332f;--irr:#ff7aa5;--irrbg:#3a1827;--ok:#4fd1bb;--bad:#ff7aa5;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Atkinson Hyperlegible",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Trebuchet MS",sans-serif;line-height:1.1;margin:0 0 .5em}
+h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800}
+h2{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800}
+h3{font-size:1.2rem;font-weight:600}
+a{color:var(--acc)}
+.wrap{max-width:980px;margin:0 auto;padding:0 18px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);z-index:5}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:8px 18px}
+nav button{font:inherit;font-weight:700;background:none;border:0;color:var(--mute);padding:8px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+nav button[aria-selected=true]{background:var(--acc);color:var(--acc-ink)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+section{display:none;padding:28px 0 60px}
+section.on{display:block}
+.hero{padding:34px 0 10px}
+.hero p{max-width:60ch;color:var(--mute)}
+.machine{background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:20px;margin:22px 0}
+.machine label{font-weight:700;display:block;margin-bottom:6px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+input[type=text]{font:inherit;font-size:1.2rem;padding:10px 14px;border:2px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);flex:1;min-width:150px}
+.btn{font:inherit;font-weight:700;background:var(--acc);color:var(--acc-ink);border:0;border-radius:12px;padding:10px 18px;cursor:pointer}
+.btn.alt{background:var(--card);color:var(--ink);border:2px solid var(--line)}
+.out{margin-top:16px;min-height:3.2em}
+.forms{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.forms div{border-radius:12px;padding:10px 12px}
+.forms small{display:block;color:var(--mute)}
+.forms b{font-size:1.4rem;font-family:"Bricolage Grotesque",sans-serif}
+.tag{display:inline-block;font-weight:700;padding:2px 10px;border-radius:999px;font-size:.9rem}
+.tag.r{background:var(--regbg);color:var(--reg)}.tag.i{background:var(--irrbg);color:var(--irr)}
+.reg-bg{background:var(--regbg)}.irr-bg{background:var(--irrbg)}.plain{background:var(--bg);border:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card.r{border-left:6px solid var(--reg)}.card.i{border-left:6px solid var(--irr)}
+.ex{color:var(--mute);margin:.2em 0}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{background:var(--bg);font-family:"Bricolage Grotesque",sans-serif}
+.scroll{overflow-x:auto}
+select{font:inherit;padding:10px;border:2px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.chip{font:inherit;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 14px;cursor:pointer}
+.chip[aria-pressed=true]{border-color:var(--acc);background:var(--acc);color:var(--acc-ink)}
+.flash{background:var(--card);border:2px solid var(--ink);border-radius:20px;min-height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;cursor:pointer;width:100%;font:inherit;color:var(--ink)}
+.flash .big{font-family:"Bricolage Grotesque",sans-serif;font-size:2.6rem;font-weight:800}
+.fb{margin-top:12px;font-weight:700;min-height:1.6em}
+.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:var(--acc);width:0;transition:width .3s}
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+@media(max-width:560px){.forms{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.vg{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.vc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;animation:rise .5s both;animation-delay:calc(var(--i)*45ms)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.vc h3{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center}.vc .f{font-size:1.6rem}
+.l{display:grid;grid-template-columns:2.2em 1fr;gap:6px;margin:.3em 0}.l b{color:var(--acc);font-size:.85rem;padding-top:.15em}
+mark{background:var(--irrbg);color:inherit;border-radius:4px;padding:0 3px}
+hr{border:0;border-top:1px dashed var(--line);margin:10px 0}
+.say{padding:2px 10px}
+.morph{font:800 clamp(1.6rem,5vw,2.6rem) "Bricolage Grotesque",sans-serif}.sw{animation:sw .7s}
+@keyframes sw{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:520px}
+.tile{aspect-ratio:1;border:0;background:none;padding:0;perspective:600px;cursor:pointer;font:inherit}
+.tile .in{display:block;position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.tile.open .in{transform:rotateY(180deg)}
+.tile .fr,.tile .bk{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:14px;backface-visibility:hidden;font:800 1.1rem "Bricolage Grotesque",sans-serif}
+.tile .fr{background:var(--acc);color:var(--acc-ink);font-size:1.6rem}
+.tile .bk{background:var(--card);border:2px solid var(--ink);color:var(--ink);transform:rotateY(180deg)}
+.tile.done .bk{background:var(--regbg);border-color:var(--reg)}
+.btn.good{background:var(--reg);color:#fff;border-color:var(--reg)}.btn.wrong{background:var(--irr);color:#fff;border-color:var(--irr)}
+.shake{animation:shake .4s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.pop{animation:pop .4s}@keyframes pop{50%{transform:scale(1.15)}}
+.cf{position:fixed;top:-14px;width:9px;height:14px;z-index:20;animation:cfall 1.8s linear forwards;pointer-events:none}
+@keyframes cfall{to{transform:translateY(105vh) rotate(540deg)}}
+@media(prefers-reduced-motion:reduce){.vc,.sw,.cf,.shake,.pop{animation:none!important}.tile .in{transition:none}}
+</style>
+</head>
+<body>
+<nav><div class="wrap" role="tablist" id="nav">
+<button role="tab" data-t="home" aria-selected="true">Try it</button>
+<button role="tab" data-t="regular" aria-selected="false">Regular verbs</button>
+<button role="tab" data-t="irregular" aria-selected="false">Irregular verbs</button>
+<button role="tab" data-t="library" aria-selected="false">100 verbs</button>
+<button role="tab" data-t="practice" aria-selected="false">Practice</button>
+<button role="tab" data-t="games" aria-selected="false">Games</button>
+</div></nav>
+<main class="wrap">
+
+<section id="home" class="on">
+<div class="hero">
+<h1>Every verb has three forms.</h1>
+<p>Verbs change when we talk about the past. Regular verbs follow a rule. Irregular verbs break it, so you have to learn them. Type any verb below to see its forms.</p>
+</div>
+<div class="machine">
+<label for="v">Type a verb (like walk, study, go)</label>
+<div class="row"><input type="text" id="v" value="play" autocomplete="off" autocapitalize="none" spellcheck="false"><button class="btn" id="go">Show forms</button></div>
+<div class="out" id="res" aria-live="polite"></div>
+</div>
+<div class="grid">
+<div class="card"><h3>Base form</h3><p class="ex">The dictionary form: <b>walk</b>, <b>go</b>. Use it with I, you, we, they.</p></div>
+<div class="card"><h3>Past simple</h3><p class="ex">A finished action: “Yesterday I <b>walked</b> home.”</p></div>
+<div class="card"><h3>Past participle</h3><p class="ex">Used with have, has, had: “I have <b>walked</b> home.”</p></div>
+</div>
+</section>
+
+<section id="regular">
+<h2>Regular verbs: add -ed</h2>
+<p>Past simple and past participle are the same. Choose the right spelling rule:</p>
+<div class="grid">
+<div class="card r"><h3>Most verbs: add -ed</h3><p class="ex">walk → walked → walked</p><p class="ex">play → played → played</p></div>
+<div class="card r"><h3>Ends in -e: add -d</h3><p class="ex">like → liked → liked</p><p class="ex">dance → danced → danced</p></div>
+<div class="card r"><h3>Consonant + y: change y to -ied</h3><p class="ex">study → studied → studied</p><p class="ex">cry → cried → cried</p><p class="ex">But vowel + y just adds -ed: play → played</p></div>
+<div class="card r"><h3>Short verb ending consonant-vowel-consonant: double the last letter</h3><p class="ex">stop → stopped → stopped</p><p class="ex">plan → planned → planned</p><p class="ex">Not for w, x, y: fix → fixed</p></div>
+</div>
+<h2 style="margin-top:34px">How to say -ed</h2>
+<div class="grid">
+<div class="card"><h3>/t/</h3><p class="ex">After sounds like p, k, f, s, sh, ch.</p><p>walked, helped, washed, watched</p></div>
+<div class="card"><h3>/d/</h3><p class="ex">After most other sounds.</p><p>played, cleaned, loved, opened</p></div>
+<div class="card"><h3>/ɪd/ (an extra syllable)</h3><p class="ex">After t or d.</p><p>wanted, needed, started, decided</p></div>
+</div>
+<h2 style="margin-top:34px">Common regular verbs</h2>
+<div class="chips" id="regchips"></div>
+</section>
+
+<section id="irregular">
+<h2>Irregular verbs: learn the pattern</h2>
+<p>These verbs do not use -ed. Many fit into groups, which makes them easier to remember. Pick a group or search.</p>
+<div class="row">
+<input type="text" id="q" placeholder="Search a verb" aria-label="Search verbs" autocomplete="off">
+</div>
+<div class="chips" id="pat"></div>
+<p id="patnote" class="ex"></p>
+<div class="scroll"><table><thead><tr><th>Base</th><th>Past simple</th><th>Past participle</th><th>Pattern</th></tr></thead><tbody id="tb"></tbody></table></div>
+</section>
+
+<section id="practice">
+<h2>Practice</h2>
+<div class="tabs">
+<button class="chip" data-m="flash" aria-pressed="true">Flashcards</button>
+<button class="chip" data-m="quiz" aria-pressed="false">Type the answer</button>
+<button class="chip" data-m="sort" aria-pressed="false">Regular or irregular?</button>
+</div>
+<div id="pane"></div>
+</section>
+<section id="library"><h2>100 essential irregular verbs</h2><p>Every verb has a meaning and an example sentence in English (EN), Russian (RU) and Uzbek (UZ). The highlighted word is the past form. Tap 🔊 to hear the three forms.</p><div class="machine" style="text-align:center"><div class="morph" id="mo"></div></div><input type="text" id="lq" placeholder="Search in English, Russian or Uzbek" aria-label="Search verbs" style="width:100%"><p class="ex" id="cnt"></p><div class="grid vg" id="vl"></div><div class="row" style="justify-content:center;margin-top:18px"><button class="btn" id="more">Show more verbs</button></div></section>
+<section id="games"><h2>Games</h2><p>Finished studying? Test yourself with the 100 verbs.</p><div class="tabs"><button class="chip" data-g="memory" aria-pressed="false">Memory match</button><button class="chip" data-g="speed" aria-pressed="false">Speed round</button><button class="chip" data-g="gap" aria-pressed="false">Fill the gap</button></div><div id="gp"><p class="ex">Choose a game to start.</p></div></section>
+</main>
+
+<script>
+var RAW="be was/were been ABC|become became become ABA|begin began begun ABC|break broke broken ABC|bring brought brought ABB|build built built ABB|buy bought bought ABB|catch caught caught ABB|choose chose chosen ABC|come came come ABA|cost cost cost AAA|cut cut cut AAA|do did done ABC|draw drew drawn ABC|drink drank drunk ABC|drive drove driven ABC|eat ate eaten ABC|fall fell fallen ABC|feel felt felt ABB|fight fought fought ABB|find found found ABB|fly flew flown ABC|forget forgot forgotten ABC|get got got ABB|give gave given ABC|go went gone ABC|grow grew grown ABC|have had had ABB|hear heard heard ABB|hit hit hit AAA|hold held held ABB|hurt hurt hurt AAA|keep kept kept ABB|know knew known ABC|leave left left ABB|let let let AAA|lose lost lost ABB|make made made ABB|meet met met ABB|pay paid paid ABB|put put put AAA|read read read AAA|ride rode ridden ABC|ring rang rung ABC|run ran run ABA|say said said ABB|see saw seen ABC|sell sold sold ABB|send sent sent ABB|set set set AAA|shut shut shut AAA|sing sang sung ABC|sit sat sat ABB|sleep slept slept ABB|speak spoke spoken ABC|spend spent spent ABB|stand stood stood ABB|swim swam swum ABC|take took taken ABC|teach taught taught ABB|tell told told ABB|think thought thought ABB|throw threw thrown ABC|understand understood understood ABB|wear wore worn ABC|win won won ABB|write wrote written ABC";
+var V=RAW.split("|").map(function(s){var p=s.split(" ");return{b:p[0],p:p[1],pp:p[2],g:p[3]}});
+var PN={AAA:"All three forms are the same: cut, cut, cut.",ABA:"First and third forms match: run, ran, run.",ABB:"Past simple and participle match: buy, bought, bought.",ABC:"All three forms are different: sing, sang, sung."};
+var REGS="walk talk play help work clean open look ask want need start decide like love dance live study cry try carry stop plan drop hop fix visit listen watch wash call use move".split(" ");
+var $=function(i){return document.getElementById(i)};
+function irr(v){return V.filter(function(x){return x.b===v})[0]}
+function ed(v){
+ if(/[^aeiou]y$/.test(v))return[v.slice(0,-1)+"ied","Consonant + y: change y to -ied."];
+ if(/e$/.test(v))return[v+"d","Ends in -e: add -d."];
+ if(/^[^aeiou]*[aeiou][bcdfghjklmnpqrstvz]$/.test(v)&&!/(en|er|it)$/.test(v))return[v+v.slice(-1)+"ed","One syllable, consonant-vowel-consonant: double the last letter, then add -ed."];
+ return[v+"ed","Add -ed."];}
+function show(){
+ var v=$("v").value.trim().toLowerCase(),o=$("res");
+ if(!/^[a-z]+$/.test(v)){o.textContent="Type one English verb using letters only.";return}
+ var x=irr(v),h;
+ if(x){h='<span class="tag i">Irregular</span><div class="forms" style="margin-top:10px"><div class="plain"><small>Base</small><b>'+x.b+'</b></div><div class="irr-bg"><small>Past simple</small><b>'+x.p+'</b></div><div class="irr-bg"><small>Past participle</small><b>'+x.pp+'</b></div></div><p class="ex">Pattern '+x.g+'. '+PN[x.g]+'</p>'}
+ else{var r=ed(v);h='<span class="tag r">Regular (probably)</span><div class="forms" style="margin-top:10px"><div class="plain"><small>Base</small><b>'+v+'</b></div><div class="reg-bg"><small>Past simple</small><b>'+r[0]+'</b></div><div class="reg-bg"><small>Past participle</small><b>'+r[0]+'</b></div></div><p class="ex">'+r[1]+' This tool follows the rules, so check a dictionary for verbs it does not know.</p>'}
+ o.innerHTML=h;}
+$("go").onclick=show;$("v").onkeydown=function(e){if(e.key==="Enter")show()};show();
+
+REGS.forEach(function(v){var b=document.createElement("button");b.className="chip";b.textContent=v+" → "+ed(v)[0];b.disabled=true;b.style.opacity=1;$("regchips").appendChild(b)});
+
+var pat="ALL",qs="";
+function drawT(){
+ $("tb").innerHTML=V.filter(function(x){return(pat==="ALL"||x.g===pat)&&x.b.indexOf(qs)===0}).map(function(x){return"<tr><td><b>"+x.b+"</b></td><td>"+x.p+"</td><td>"+x.pp+'</td><td><span class="tag i">'+x.g+"</span></td></tr>"}).join("")||'<tr><td colspan="4">No verbs found. Try another letter.</td></tr>';
+ $("patnote").textContent=PN[pat]||"Showing all "+V.length+" verbs.";}
+["ALL","AAA","ABA","ABB","ABC"].forEach(function(g){var b=document.createElement("button");b.className="chip";b.textContent=g==="ALL"?"All verbs":g;b.setAttribute("aria-pressed",g==="ALL");b.onclick=function(){pat=g;[].forEach.call($("pat").children,function(c){c.setAttribute("aria-pressed",c===b)});drawT()};$("pat").appendChild(b)});
+$("q").oninput=function(){qs=this.value.trim().toLowerCase();drawT()};drawT();
+
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function shuffle(a){return a.slice().sort(function(){return Math.random()-.5})}
+var mode="flash";
+function pane(){({flash:flash,quiz:quiz,sort:sort})[mode]()}
+[].forEach.call(document.querySelectorAll("[data-m]"),function(b){b.onclick=function(){mode=b.dataset.m;[].forEach.call(document.querySelectorAll("[data-m]"),function(c){c.setAttribute("aria-pressed",c===b)});pane()}});
+
+function flash(){
+ var x=pick(V),side=0,P=$("pane");
+ P.innerHTML='<button class="flash" id="fc"></button><div class="row" style="margin-top:12px"><button class="btn" id="nx">Next verb</button></div>';
+ function d(){$("fc").innerHTML=side?'<div class="big">'+x.p+" · "+x.pp+'</div><p class="ex">past simple · past participle</p>':'<div class="big">'+x.b+'</div><p class="ex">Tap to flip the card</p>'}
+ $("fc").onclick=function(){side=1-side;d()};$("nx").onclick=function(){x=pick(V);side=0;d()};d();}
+
+var Q;
+function quiz(){
+ Q={n:0,s:0,list:shuffle(V).slice(0,10),done:false};qn();}
+function qn(){
+ var P=$("pane");
+ if(Q.n>=Q.list.length){P.innerHTML='<div class="card"><h3>Finished: '+Q.s+' out of '+Q.list.length+'</h3><p>'+(Q.s>=8?"Excellent work!":Q.s>=5?"Good progress. Review the verbs you missed.":"Keep going. Try the flashcards, then play again.")+'</p><button class="btn" id="again">Play again</button></div>';$("again").onclick=quiz;return}
+ var x=Q.list[Q.n],f=Math.random()<.5?"p":"pp",lab=f==="p"?"past simple":"past participle";
+ P.innerHTML='<div class="bar"><i style="width:'+Q.n*10+'%"></i></div><p>Question '+(Q.n+1)+" of "+Q.list.length+'. Score: '+Q.s+'</p><div class="card"><h3>What is the '+lab+' of “'+x.b+'”?</h3><div class="row"><input type="text" id="ans" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Your answer"><button class="btn" id="chk">Check</button></div><div class="fb" id="fb" aria-live="polite"></div></div>';
+ var inp=$("ans");inp.focus();var checked=false;
+ function chk(){
+  if(checked){Q.n++;qn();return}
+  var a=inp.value.trim().toLowerCase(),ok=x[f].split("/").indexOf(a)>-1;checked=true;if(ok)Q.s++;
+  $("fb").className="fb "+(ok?"ok":"bad");
+  $("fb").textContent=ok?"Correct!":"Not quite. The answer is “"+x[f]+"”.";
+  $("chk").textContent=Q.n>=9?"See score":"Next question";}
+ $("chk").onclick=chk;inp.onkeydown=function(e){if(e.key==="Enter")chk()};}
+
+function sort(){
+ var S={n:0,s:0},items=shuffle(REGS.map(function(v){return{v:v,r:1}}).concat(V.map(function(x){return{v:x.b,r:0}}))).slice(0,12);
+ function go(){
+  var P=$("pane");
+  if(S.n>=items.length){P.innerHTML='<div class="card"><h3>Finished: '+S.s+' out of '+items.length+'</h3><button class="btn" id="again">Play again</button></div>';$("again").onclick=sort;return}
+  var it=items[S.n];
+  P.innerHTML='<div class="bar"><i style="width:'+S.n/items.length*100+'%"></i></div><p>Score: '+S.s+'</p><div class="card"><h3>Is “'+it.v+'” regular or irregular?</h3><div class="row"><button class="btn" data-a="1">Regular</button><button class="btn alt" data-a="0">Irregular</button></div><div class="fb" id="fb" aria-live="polite"></div></div>';
+  [].forEach.call(P.querySelectorAll("[data-a]"),function(b){b.onclick=function(){
+   var ok=+b.dataset.a===it.r;if(ok)S.s++;
+   var x=irr(it.v),ans=it.r?it.v+" → "+ed(it.v)[0]:x.b+" → "+x.p+" → "+x.pp;
+   $("fb").className="fb "+(ok?"ok":"bad");$("fb").textContent=(ok?"Correct! ":"Not quite. ")+ans;
+   [].forEach.call(P.querySelectorAll("[data-a]"),function(c){c.disabled=true});
+   var n=document.createElement("button");n.className="btn";n.style.marginTop="12px";n.textContent="Next";n.onclick=function(){S.n++;go()};$("fb").after(n);n.focus();}});}
+ go();}
+
+[].forEach.call(document.querySelectorAll("#nav button"),function(b){b.onclick=function(){
+ [].forEach.call(document.querySelectorAll("#nav button"),function(c){c.setAttribute("aria-selected",c===b)});
+ [].forEach.call(document.querySelectorAll("section"),function(s){s.classList.toggle("on",s.id===b.dataset.t)});
+ if(b.dataset.t==="practice")pane();window.scrollTo(0,0)}});
+</script>
+<script>
+var D=`be|was/were|been|to exist or have a quality|быть, существовать|bo‘lmoq|She was happy.|Она была счастлива.|U xursand edi.
+become|became|become|to start to be|становиться|bo‘lib qolmoq|He became a doctor.|Он стал врачом.|U shifokor bo‘ldi.
+begin|began|begun|to start|начинать|boshlamoq|The class began at nine.|Урок начался в девять.|Dars to‘qqizda boshlandi.
+bend|bent|bent|to curve something|гнуть, сгибать|egmoq|He bent the wire.|Он согнул проволоку.|U simni egdi.
+bite|bit|bitten|to cut with teeth|кусать|tishlamoq|The dog bit me.|Собака укусила меня.|It meni tishladi.
+blow|blew|blown|to send out air|дуть|puflamoq, esmoq|The wind blew hard.|Сильно дул ветер.|Shamol qattiq esdi.
+break|broke|broken|to split into pieces|ломать, разбивать|sindirmoq|I broke the cup.|Я разбил чашку.|Men piyolani sindirdim.
+bring|brought|brought|to carry here|приносить|olib kelmoq|She brought a book.|Она принесла книгу.|U kitob olib keldi.
+build|built|built|to make a house or bridge|строить|qurmoq|They built a bridge.|Они построили мост.|Ular ko‘prik qurishdi.
+buy|bought|bought|to pay for something|покупать|sotib olmoq|I bought bread.|Я купил хлеб.|Men non sotib oldim.
+catch|caught|caught|to grab or stop|ловить|ushlamoq|He caught the ball.|Он поймал мяч.|U to‘pni ushladi.
+choose|chose|chosen|to pick one|выбирать|tanlamoq|She chose a red dress.|Она выбрала красное платье.|U qizil ko‘ylakni tanladi.
+come|came|come|to move toward here|приходить|kelmoq|He came home late.|Он пришёл домой поздно.|U uyga kech keldi.
+cost|cost|cost|to have a price|стоить|narxi bo‘lmoq|The bag cost ten dollars.|Сумка стоила десять долларов.|Sumka o‘n dollar turdi.
+cut|cut|cut|to divide with a knife|резать|kesmoq|I cut the apple.|Я разрезал яблоко.|Men olmani kesdim.
+dig|dug|dug|to make a hole|копать|kovlamoq|They dug a hole.|Они выкопали яму.|Ular chuqur kovlashdi.
+do|did|done|to perform an action|делать|qilmoq|I did my homework.|Я сделал домашнее задание.|Men uy vazifamni qildim.
+draw|drew|drawn|to make a picture|рисовать|chizmoq|She drew a cat.|Она нарисовала кошку.|U mushuk chizdi.
+drink|drank|drunk|to take in liquid|пить|ichmoq|He drank some water.|Он выпил воды.|U suv ichdi.
+drive|drove|driven|to control a car|водить, ехать|haydamoq|She drove to work.|Она поехала на работу.|U ishga mashinada bordi.
+eat|ate|eaten|to take food|есть, кушать|yemoq|We ate dinner.|Мы поужинали.|Biz kechki ovqat yedik.
+fall|fell|fallen|to drop down|падать|yiqilmoq|He fell off his bike.|Он упал с велосипеда.|U velosipeddan yiqildi.
+feed|fed|fed|to give food|кормить|boqmoq|I fed the cat.|Я покормил кошку.|Men mushukni boqdim.
+feel|felt|felt|to sense in body or mind|чувствовать|his qilmoq|I felt tired.|Я чувствовал усталость.|Men o‘zimni charchagan his qildim.
+fight|fought|fought|to struggle against|драться, бороться|jang qilmoq|They fought for freedom.|Они боролись за свободу.|Ular ozodlik uchun kurashdi.
+find|found|found|to discover|находить|topmoq|I found my keys.|Я нашёл ключи.|Men kalitlarimni topdim.
+fly|flew|flown|to move through the air|летать|uchmoq|The bird flew away.|Птица улетела.|Qush uchib ketdi.
+forget|forgot|forgotten|to not remember|забывать|unutmoq|I forgot his name.|Я забыл его имя.|Men uning ismini unutdim.
+forgive|forgave|forgiven|to stop being angry|прощать|kechirmoq|She forgave him.|Она простила его.|U uni kechirdi.
+freeze|froze|frozen|to turn into ice|замерзать|muzlamoq|The lake froze.|Озеро замёрзло.|Ko‘l muzladi.
+get|got|got|to receive or obtain|получать|olmoq|I got a gift.|Я получил подарок.|Men sovg‘a oldim.
+give|gave|given|to hand to someone|давать|bermoq|He gave me a pen.|Он дал мне ручку.|U menga ruchka berdi.
+go|went|gone|to move from a place|идти, ехать|bormoq|We went to the park.|Мы пошли в парк.|Biz bog‘ga bordik.
+grow|grew|grown|to get bigger|расти|o‘smoq|The tree grew tall.|Дерево выросло высоким.|Daraxt baland o‘sdi.
+hang|hung|hung|to attach from above|вешать|osmoq|She hung her coat.|Она повесила пальто.|U paltosini osdi.
+have|had|had|to own or hold|иметь|ega bo‘lmoq|I had a small car.|У меня была маленькая машина.|Mening kichkina mashinam bor edi.
+hear|heard|heard|to notice a sound|слышать|eshitmoq|I heard a noise.|Я услышал шум.|Men shovqin eshitdim.
+hide|hid|hidden|to put out of sight|прятать|yashirmoq|He hid the gift.|Он спрятал подарок.|U sovg‘ani yashirdi.
+hit|hit|hit|to strike|ударять|urmoq|He hit the ball.|Он ударил по мячу.|U to‘pga urdi.
+hold|held|held|to keep in your hands|держать|ushlab turmoq|She held my hand.|Она держала мою руку.|U qo‘limni ushlab turdi.
+hurt|hurt|hurt|to cause pain|причинять боль|og‘ritmoq|I hurt my knee.|Я ушиб колено.|Men tizzamni og‘ritdim.
+keep|kept|kept|to continue to have|хранить, держать|saqlamoq|She kept the letter.|Она сохранила письмо.|U xatni saqlab qo‘ydi.
+know|knew|known|to have knowledge|знать|bilmoq|I knew the answer.|Я знал ответ.|Men javobni bilardim.
+lay|laid|laid|to put down flat|класть|qo‘ymoq|He laid the book on the table.|Он положил книгу на стол.|U kitobni stolga qo‘ydi.
+lead|led|led|to guide|вести, руководить|boshlab bormoq|She led the group.|Она вела группу.|U guruhni boshlab bordi.
+leave|left|left|to go away from|уходить, покидать|tark etmoq|They left at noon.|Они ушли в полдень.|Ular tushda ketishdi.
+lend|lent|lent|to give for a short time|одалживать|qarz bermoq|I lent him money.|Я одолжил ему денег.|Men unga qarz berdim.
+let|let|let|to allow|позволять|ruxsat bermoq|She let me go.|Она отпустила меня.|U menga ketishga ruxsat berdi.
+lie|lay|lain|to rest flat|лежать|yotmoq|He lay on the sofa.|Он лежал на диване.|U divanda yotdi.
+lose|lost|lost|to not win or not find|терять, проигрывать|yo‘qotmoq|I lost my phone.|Я потерял телефон.|Men telefonimni yo‘qotdim.
+make|made|made|to create|делать, создавать|yasamoq|She made a cake.|Она испекла торт.|U tort yasadi.
+mean|meant|meant|to have a meaning|означать|anglatmoq|She meant it.|Она имела это в виду.|U buni jiddiy aytgan edi.
+meet|met|met|to see for the first time|встречать|uchrashmoq|I met her yesterday.|Я встретил её вчера.|Men uni kecha uchratdim.
+pay|paid|paid|to give money|платить|to‘lamoq|He paid the bill.|Он оплатил счёт.|U hisobni to‘ladi.
+put|put|put|to place|класть, ставить|qo‘ymoq|I put it on the shelf.|Я положил это на полку.|Men uni tokchaga qo‘ydim.
+quit|quit|quit|to stop doing|бросать|tashlamoq|He quit smoking.|Он бросил курить.|U chekishni tashladi.
+read|read|read|to look at words|читать|o‘qimoq|I read a book.|Я прочитал книгу.|Men kitob o‘qidim.
+ride|rode|ridden|to sit on and travel|ездить верхом|minmoq|She rode a horse.|Она ехала на лошади.|U otga mindi.
+ring|rang|rung|to make a bell sound|звонить|jiringlamoq|The phone rang.|Телефон зазвонил.|Telefon jiringladi.
+rise|rose|risen|to go up|подниматься|ko‘tarilmoq|The sun rose.|Солнце взошло.|Quyosh chiqdi.
+run|ran|run|to move fast on foot|бегать|yugurmoq|He ran home.|Он побежал домой.|U uyga yugurdi.
+say|said|said|to speak words|говорить, сказать|aytmoq|She said hello.|Она сказала привет.|U salom dedi.
+see|saw|seen|to look with eyes|видеть|ko‘rmoq|I saw a bird.|Я увидел птицу.|Men qush ko‘rdim.
+seek|sought|sought|to look for|искать|izlamoq|They sought help.|Они искали помощь.|Ular yordam izlashdi.
+sell|sold|sold|to give for money|продавать|sotmoq|He sold his car.|Он продал машину.|U mashinasini sotdi.
+send|sent|sent|to make go somewhere|отправлять|yubormoq|I sent a letter.|Я отправил письмо.|Men xat yubordim.
+set|set|set|to put in position|ставить, устанавливать|o‘rnatmoq|She set the table.|Она накрыла на стол.|U dasturxon yozdi.
+shake|shook|shaken|to move quickly back and forth|трясти|silkitmoq|He shook the bottle.|Он потряс бутылку.|U shishani silkitdi.
+shine|shone|shone|to give light|светить, сиять|charaqlamoq|The sun shone.|Солнце светило.|Quyosh charaqladi.
+shoot|shot|shot|to fire a weapon|стрелять|otmoq|He shot at the target.|Он выстрелил в цель.|U nishonga otdi.
+show|showed|shown|to let someone see|показывать|ko‘rsatmoq|She showed me the photo.|Она показала мне фото.|U menga suratni ko‘rsatdi.
+shut|shut|shut|to close|закрывать|yopmoq|He shut the door.|Он закрыл дверь.|U eshikni yopdi.
+sing|sang|sung|to make music with your voice|петь|kuylamoq|She sang a song.|Она спела песню.|U qo‘shiq kuyladi.
+sink|sank|sunk|to go under water|тонуть|cho‘kmoq|The ship sank.|Корабль затонул.|Kema cho‘kdi.
+sit|sat|sat|to rest on a seat|сидеть|o‘tirmoq|We sat down.|Мы сели.|Biz o‘tirdik.
+sleep|slept|slept|to rest at night|спать|uxlamoq|I slept well.|Я хорошо спал.|Men yaxshi uxladim.
+slide|slid|slid|to move smoothly|скользить|sirpanmoq|He slid on the ice.|Он поскользнулся на льду.|U muzda sirpandi.
+speak|spoke|spoken|to talk|говорить|gapirmoq|She spoke English.|Она говорила по-английски.|U inglizcha gapirdi.
+spend|spent|spent|to use money or time|тратить, проводить|sarflamoq|I spent two hours.|Я потратил два часа.|Men ikki soat sarfladim.
+spin|spun|spun|to turn around fast|вращать|aylantirmoq|The wheel spun.|Колесо закрутилось.|G‘ildirak aylandi.
+spread|spread|spread|to cover a wider area|расстилать, распространять|yoymoq|She spread the cloth.|Она расстелила скатерть.|U dasturxonni yoydi.
+stand|stood|stood|to be on your feet|стоять|turmoq|He stood by the door.|Он стоял у двери.|U eshik yonida turdi.
+steal|stole|stolen|to take without asking|воровать|o‘g‘irlamoq|Someone stole my bike.|Кто-то украл мой велосипед.|Kimdir velosipedimni o‘g‘irladi.
+stick|stuck|stuck|to attach with glue|приклеивать|yopishtirmoq|I stuck the stamp.|Я приклеил марку.|Men markani yopishtirdim.
+swim|swam|swum|to move in water|плавать|suzmoq|We swam in the river.|Мы плавали в реке.|Biz daryoda suzdik.
+take|took|taken|to get and carry|брать|olmoq|She took my bag.|Она взяла мою сумку.|U sumkamni oldi.
+teach|taught|taught|to help others learn|учить, преподавать|o‘rgatmoq|He taught us math.|Он учил нас математике.|U bizga matematika o‘rgatdi.
+tear|tore|torn|to pull apart|рвать|yirtmoq|I tore the paper.|Я порвал бумагу.|Men qog‘ozni yirtdim.
+tell|told|told|to give information|рассказывать|aytib bermoq|She told me a story.|Она рассказала мне историю.|U menga hikoya aytib berdi.
+think|thought|thought|to use your mind|думать|o‘ylamoq|I thought about it.|Я думал об этом.|Men bu haqida o‘yladim.
+throw|threw|thrown|to send through the air|бросать|tashlamoq|He threw the ball.|Он бросил мяч.|U to‘pni tashladi.
+understand|understood|understood|to know the meaning|понимать|tushunmoq|I understood the rule.|Я понял правило.|Men qoidani tushundim.
+wake|woke|woken|to stop sleeping|просыпаться|uyg‘onmoq|I woke up early.|Я проснулся рано.|Men erta uyg‘ondim.
+wear|wore|worn|to have clothes on|носить|kiymoq|She wore a hat.|Она надела шляпу.|U shlyapa kiydi.
+win|won|won|to be first|выигрывать|yutmoq|We won the game.|Мы выиграли игру.|Biz o‘yinda yutdik.
+write|wrote|written|to put words on paper|писать|yozmoq|He wrote a letter.|Он написал письмо.|U xat yozdi.
+bet|bet|bet|to risk money on a result|спорить, ставить|garov bog‘lamoq|I bet ten dollars.|Я поставил десять долларов.|Men o‘n dollarga garov bog‘ladim.
+sweep|swept|swept|to clean with a brush|подметать|supurmoq|She swept the floor.|Она подмела пол.|U polni supurdi.
+strike|struck|struck|to hit hard|ударять|urmoq|The clock struck ten.|Часы пробили десять.|Soat o‘nni urdi.
+swear|swore|sworn|to make a serious promise|клясться|qasam ichmoq|He swore to tell the truth.|Он поклялся говорить правду.|U haqiqatni aytishga qasam ichdi.`.split("\n").map(function(l){var p=l.split("|"),o={b:p[0],p:p[1],pp:p[2],e:p[3],r:p[4],u:p[5],se:p[6],sr:p[7],su:p[8]};o.g=o.p===o.b?(o.pp===o.b?"AAA":"ABB"):(o.p===o.pp?"ABB":(o.pp===o.b?"ABA":"ABC"));return o});
+V=D;drawT();show();
+function say(t){try{var u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function mk(s,p){return s.replace(new RegExp("\\b("+p.split("/").join("|")+")\\b","i"),"<mark>$1</mark>")}
+function conf(){for(var i=0;i<30;i++){var s=document.createElement("i");s.className="cf";s.style.left=Math.random()*100+"vw";s.style.background=["#2f5bea","#0b8a78","#c2255c","#f5a623"][i%4];s.style.animationDelay=Math.random()*.4+"s";document.body.appendChild(s);setTimeout(function(e){e.remove()}.bind(null,s),2400)}}
+function card(x,i){return'<article class="vc" style="--i:'+i+'"><h3><span class="f">'+x.b+'</span><span class="tag i">'+x.p+' · '+x.pp+'</span><button class="chip say" data-s="'+x.b+', '+x.p.split("/")[0]+', '+x.pp+'" aria-label="Listen to '+x.b+'">🔊</button></h3><div class="l"><b>EN</b><span>'+x.e+'</span></div><div class="l"><b>RU</b><span>'+x.r+'</span></div><div class="l"><b>UZ</b><span>'+x.u+'</span></div><hr><div class="l"><b>EN</b><span>'+mk(x.se,x.p)+'</span></div><div class="l"><b>RU</b><span>'+x.sr+'</span></div><div class="l"><b>UZ</b><span>'+x.su+'</span></div></article>'}
+var LL=[],LN=0,LQ="";
+function more(reset){
+ if(reset){LL=D.filter(function(x){return !LQ||[x.b,x.p,x.e,x.r,x.u].join(" ").toLowerCase().indexOf(LQ)>-1});LN=0;$("vl").innerHTML=""}
+ var s=LL.slice(LN,LN+12);LN+=s.length;
+ $("vl").insertAdjacentHTML("beforeend",s.map(card).join(""));
+ $("more").style.display=LN<LL.length?"":"none";
+ $("cnt").textContent=LL.length?"Showing "+LN+" of "+LL.length+" verbs":"No verbs found. Try another word.";}
+$("more").onclick=function(){more()};
+$("lq").oninput=function(){LQ=this.value.trim().toLowerCase();more(1)};
+$("vl").onclick=function(e){var b=e.target.closest(".say");if(b)say(b.dataset.s)};
+more(1);
+function morph(){var x=pick(D),m=$("mo");m.classList.remove("sw");void m.offsetWidth;m.innerHTML=x.b+' → <b>'+x.p+'</b> → <b>'+x.pp+'</b>';m.classList.add("sw")}
+morph();setInterval(morph,2600);
+
+var TM;function GP(){return $("gp")}
+[].forEach.call(document.querySelectorAll("[data-g]"),function(b){b.onclick=function(){clearInterval(TM);[].forEach.call(document.querySelectorAll("[data-g]"),function(c){c.setAttribute("aria-pressed",c===b)});({memory:memory,speed:speed,gap:gap})[b.dataset.g]()}});
+
+function memory(){
+ var t=[];shuffle(D.filter(function(x){return x.p!==x.b})).slice(0,6).forEach(function(x){t.push({k:x.b,l:x.b},{k:x.b,l:x.p.split("/")[0]})});t=shuffle(t);
+ var o=[],mv=0,m=0,lk=false;
+ GP().innerHTML='<p>Match each verb with its past simple form. Moves: <b id="mv">0</b></p><div class="mem">'+t.map(function(x,i){return'<button class="tile" aria-label="Card '+(i+1)+'"><span class="in"><span class="fr">?</span><span class="bk">'+x.l+'</span></span></button>'}).join("")+'</div><p class="fb" id="mf"></p>';
+ var ts=GP().querySelectorAll(".tile");
+ [].forEach.call(ts,function(el,i){el.onclick=function(){
+  if(lk||el.classList.contains("open"))return;
+  el.classList.add("open");o.push(i);
+  if(o.length<2)return;
+  mv++;$("mv").textContent=mv;
+  var a=o[0],b=o[1];
+  if(t[a].k===t[b].k){ts[a].classList.add("done");ts[b].classList.add("done");o=[];if(++m===6){$("mf").className="fb ok pop";$("mf").textContent="You matched all pairs in "+mv+" moves!";conf()}}
+  else{lk=true;setTimeout(function(){ts[a].classList.remove("open");ts[b].classList.remove("open");o=[];lk=false},900)}}});}
+
+function speed(){
+ var s=0,tl=45,q,f;
+ GP().innerHTML='<div class="bar"><i id="tb2" style="width:100%"></i></div><p>Score: <b id="sc">0</b> · Time: <b id="tl">45</b> seconds</p><div class="card" id="sq"></div>';
+ function nq(){
+  q=pick(D);f=Math.random()<.5?"p":"pp";
+  var a=q[f].split("/")[0],o=[a];
+  while(o.length<4){var w=pick(D)[pick(["p","pp"])].split("/")[0];if(o.indexOf(w)<0)o.push(w)}
+  o=shuffle(o);
+  $("sq").innerHTML='<h3>'+(f==="p"?"Past simple":"Past participle")+' of “'+q.b+'”</h3><p class="ex">'+q.r+' · '+q.u+'</p><div class="row">'+o.map(function(w){return'<button class="btn alt" data-w="'+w+'">'+w+'</button>'}).join("")+'</div>';
+  [].forEach.call($("sq").querySelectorAll("[data-w]"),function(b){b.onclick=function(){
+   var ok=b.dataset.w===a;if(ok){s++;$("sc").textContent=s}
+   [].forEach.call($("sq").querySelectorAll("button"),function(c){c.disabled=true;if(c.dataset.w===a)c.classList.add("good")});
+   if(!ok)b.classList.add("wrong");
+   setTimeout(function(){if($("sq"))nq()},ok?350:900)}})}
+ nq();
+ TM=setInterval(function(){tl--;if(!$("tl")){clearInterval(TM);return}$("tl").textContent=tl;$("tb2").style.width=tl/45*100+"%";
+  if(tl<=0){clearInterval(TM);GP().innerHTML='<div class="card"><h3>Time is up! Score: '+s+'</h3><p>'+(s>=12?"Amazing speed!":"Nice try. Play again to beat your score.")+'</p><button class="btn" id="ag">Play again</button></div>';$("ag").onclick=speed;if(s>=12)conf()}},1000);}
+
+function gap(){
+ var rx=function(x){return new RegExp("\\b("+x.p.split("/").join("|")+")\\b","i")};
+ var pool=shuffle(D.filter(function(x){return rx(x).test(x.se)})).slice(0,8),n=0,s=0;
+ function nq(){
+  if(n>=pool.length){GP().innerHTML='<div class="card"><h3>Finished: '+s+' out of '+pool.length+'</h3><button class="btn" id="ag">Play again</button></div>';$("ag").onclick=gap;if(s>=6)conf();return}
+  var x=pool[n],done=false;
+  GP().innerHTML='<div class="bar"><i style="width:'+n/pool.length*100+'%"></i></div><div class="card"><p class="ex">Write the past simple of “'+x.b+'”.</p><h3>'+x.se.replace(rx(x),"_____")+'</h3><p class="ex">'+x.sr+'<br>'+x.su+'</p><div class="row"><input type="text" id="gi" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Your answer"><button class="btn" id="gb">Check</button></div><div class="fb" id="gf" aria-live="polite"></div></div>';
+  var i=$("gi");i.focus();
+  function ck(){
+   if(done){n++;nq();return}
+   done=true;var ok=x.p.split("/").indexOf(i.value.trim().toLowerCase())>-1;if(ok)s++;
+   $("gf").className="fb "+(ok?"ok pop":"bad shake");$("gf").textContent=ok?"Correct!":"Not quite. The answer is “"+x.p+"”.";
+   $("gb").textContent=n>=pool.length-1?"See score":"Next sentence"}
+  $("gb").onclick=ck;i.onkeydown=function(e){if(e.key==="Enter")ck()}}
+ nq();}
+</script>
+</body>
+</html>
